@@ -13,7 +13,7 @@ const getAllUser=(req,res,next)=>{
 
 ///////// get one user //////////
 const getOneUser=(req,res,next)=>{
-  getOne(req,res,next,User)
+  getOne(req,res,next,User,options)
 }
 
 //////// add user //////////////

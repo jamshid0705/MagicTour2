@@ -1,11 +1,12 @@
 const Tour = require('../Model/tourModel')
-const catchError = require('../utility/catchError')
+const catchError2 = require('../utility/catchError2')
 const Review=require('../Model/reviewModel')
 const {getAll,getOne,add,update,deleteData}=require('./handlerController')
 
 
 const options={
-  path:'guides'
+  path:'guides',
+  select:'name'
 }
 
 const options2={
@@ -37,13 +38,14 @@ const deleteTour=(req,res,next)=>{
   deleteData(req,res,next,Tour)
 }
 
-const getIdReview=catchError(async(req,res,next)=>{
-  console.log('11111111111')
-  const data=await Review.find({tour:req.params.tourId})
+// const getIdReview=catchError2(async(req,res,next)=>{
+ 
+//     console.log(req.params.id)
+//     const data=await Review.find({tour:req.params.id})
+  
+//     res.status(200).json({
+//       data:data
+//     })
+//   })
 
-  res.status(200).json({
-    data:data
-  })
-})
-
-module.exports={getAllTour,getOneTour,updateTour,deleteTour,addTour,getIdReview}
+module.exports={getAllTour,getOneTour,updateTour,deleteTour,addTour}

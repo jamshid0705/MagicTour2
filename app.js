@@ -12,10 +12,10 @@ app.use('/api/v1/tours',tourRout)
 app.use('/api/v1/users',userRout)
 app.use('/api/v1/reviews',reviewRout)
 
-////////// err page //////////////
-// app.all('*',function(req,res,next){
-//   next(new appError('Not page !',404))
-// })
+//////// err page //////////////
+app.all('*',function(req,res,next){
+  next(new appError('Not page !',404))
+})
 
 
 /////////// all err ///////////////

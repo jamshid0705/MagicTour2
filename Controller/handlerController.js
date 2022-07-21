@@ -1,5 +1,6 @@
 const appError = require("../utility/appError");
 const catchError = require("../utility/catchError");
+const FeatureApi = require("../utility/featureRegEx");
 
 //////// response func //////////////
 const responseFunc=(res,statusCode,data)=>{
@@ -20,18 +21,22 @@ const responseFunc=(res,statusCode,data)=>{
 
 //////// get All ////////////
 const getAll=catchError(async(req,res,next,Model,options,options2)=>{
-  let data
+  
+  const query=new FeatureApi(req.query,Model).filter().sort().field().page()
+  const tour=query.dataQuery
+
   if(options2){
-    console.log(1222)
-    data=await Model.find().populate(options).populate(options2)
+    console.log(options2)
+    data=await tour.populate(options).populate(options2)
   }
   else if(options){
-    console.log('22222222222')
-    data=await Model.find().populate(options)
+    console.log('ooooooooo')
+    data=await tour.populate(options)
   }
   else{
-    data=await Model.find()
+    data=await tour
   }
+ 
   
   responseFunc(res,200,data)
 })
@@ -41,6 +46,7 @@ const getAll=catchError(async(req,res,next,Model,options,options2)=>{
 const getOne=catchError(async(req,res,next,Model,options,options2)=>{
   let data
   if(options2){
+   
     data=await Model.findById(req.params.id).populate(options).populate(options2)
   }
   else if(options){
@@ -61,7 +67,14 @@ const getOne=catchError(async(req,res,next,Model,options,options2)=>{
 
 ////////// add /////////////
 const add=catchError(async(req,res,next,Model)=>{
-  const data=await Model.create(req.body)
+  let data
+  // if(!req.params.id){
+  //   data=await Model.create(req)
+  // }
+  // else{
+  //   data=await Model.create(req.body)
+  // }
+  data=await Model.create(req.body)
 
   responseFunc(res,200,data)
 })
