@@ -46,7 +46,6 @@ const getAll=catchError(async(req,res,next,Model,options,options2)=>{
 const getOne=catchError(async(req,res,next,Model,options,options2)=>{
   let data
   if(options2){
-   
     data=await Model.findById(req.params.id).populate(options).populate(options2)
   }
   else if(options){
@@ -55,8 +54,7 @@ const getOne=catchError(async(req,res,next,Model,options,options2)=>{
   else{
     data=await Model.findById(req.params.id)
   }
- 
-
+  
   if(!data){
     return next(new appError('Bunday id lik malumot topilmadi !',404))
   }
@@ -83,11 +81,11 @@ const add=catchError(async(req,res,next,Model)=>{
 //////// update //////////
 const update=catchError(async(req,res,next,Model)=>{
   const data =await Model.findByIdAndUpdate(req.params.id)
-
+  
   if(!data){
     return next(new appError('Bunday id lik malumot topilmadi !',404))
   }
-
+  
   responseFunc(res,200,data)
 })
 

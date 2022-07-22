@@ -1,5 +1,6 @@
 const mongoose=require('mongoose')
 const validator=require('validator')
+const bcrypt=require('bcrypt')
 
 const userschema=new mongoose.Schema({
   name:{
@@ -26,15 +27,16 @@ const userschema=new mongoose.Schema({
     type:String,
     required:[true,'Siz password kirting'],
     minlength:8,
-    validate:[validator.isStrongPassword,'Siz kuchliroq password kiriting !']
+    validate:[validator.isStrongPassword,'Siz kuchliroq password kiriting !'],
+    select:false
   },
-  // passwordConfirm:{
-  //   type:String,
-  //   required:[true,"Parolni qayta kiriting !"],
-  //   validate:{validator:function(val){
-  //     return val===this.password
-  //   },message:'Password bilan bir xil bo\'lsin!'}
-  // }
+  passwordConfirm:{
+    type:String,
+    required:[true,"Parolni qayta kiriting !"],
+    validate:{validator:function(val){
+      return val===this.password
+    },message:'Password bilan bir xil bo\'lsin!'}
+  }
 },{
   toJSON:{virtuals:true}
 })
@@ -43,6 +45,18 @@ userschema.virtual('reviews',{
   ref:'reviews',
   localField:'_id',
   foreignField:'user'
+})
+
+userschema.pre('save',async function(next){
+   if(!this.isModified('password')){
+    return next()
+   }
+   const hash=await bcrypt.hash(this.password,12)
+
+   this.password=hash
+   this.passwordConfirm=undefined
+
+   next()
 })
 
 const User=mongoose.model('users',userschema)

@@ -3,7 +3,13 @@ const userController=require('../Controller/userController')
 
 const Router=express.Router()
 
-Router.route('/').get(userController.getAllUser).post(userController.addUser)
-Router.route('/:id').get(userController.getOneUser).patch(userController.updateUser).delete(userController.deleteUser)
+//////// auth controller ///////////////
+const authController=require('../Controller/authController')
+
+Router.route('/signup').post(authController.signUp)
+Router.route('/signin').post(authController.signin)
+
+Router.route('/').get(authController.protect,userController.getAllUser).post(authController.protect,userController.addUser)
+Router.route('/:id').get(authController.protect,userController.getOneUser).patch(authController.protect,userController.updateUser).delete(authController.protect,authController.role(['admin']),userController.deleteUser)
 
 module.exports=Router
