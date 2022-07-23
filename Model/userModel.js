@@ -1,6 +1,7 @@
 const mongoose=require('mongoose')
 const validator=require('validator')
 const bcrypt=require('bcrypt')
+const crypto=require('crypto')
 
 const userschema=new mongoose.Schema({
   name:{
@@ -28,7 +29,7 @@ const userschema=new mongoose.Schema({
     required:[true,'Siz password kirting'],
     minlength:8,
     validate:[validator.isStrongPassword,'Siz kuchliroq password kiriting !'],
-    select:false
+    // select:false
   },
   passwordConfirm:{
     type:String,
@@ -36,7 +37,9 @@ const userschema=new mongoose.Schema({
     validate:{validator:function(val){
       return val===this.password
     },message:'Password bilan bir xil bo\'lsin!'}
-  }
+  },
+  resetTokenHash:String,
+  resetTokenVaqt:Date,
 },{
   toJSON:{virtuals:true}
 })
@@ -58,6 +61,17 @@ userschema.pre('save',async function(next){
 
    next()
 })
+
+userschema.methods.resetToken=function(){
+  const reset=crypto.randomBytes(32).toString('hex')
+
+  const hash=crypto.createHash('sha256').update(reset).digest('hex')
+
+  this.resetTokenHash=hash
+  this.resetTokenVaqt=Date.now()+10*60*100
+
+  return reset
+}
 
 const User=mongoose.model('users',userschema)
 

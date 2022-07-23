@@ -8,6 +8,10 @@ const authController=require('../Controller/authController')
 
 Router.route('/signup').post(authController.signUp)
 Router.route('/signin').post(authController.signin)
+Router.route('/forgotpassword').post(authController.protect,authController.forgotpassword)
+Router.route('/resentpassword/:token').post(authController.protect,authController.resentpassword)
+Router.route('/updatepassword').post(authController.protect,authController.updatepassword)
+Router.route('/updateme').post(authController.protect,authController.updateme)
 
 Router.route('/').get(authController.protect,userController.getAllUser).post(authController.protect,userController.addUser)
 Router.route('/:id').get(authController.protect,userController.getOneUser).patch(authController.protect,userController.updateUser).delete(authController.protect,authController.role(['admin']),userController.deleteUser)
