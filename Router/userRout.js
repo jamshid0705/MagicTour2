@@ -13,7 +13,7 @@ Router.route('/resentpassword/:token').post(authController.protect,authControlle
 Router.route('/updatepassword').post(authController.protect,authController.updatepassword)
 Router.route('/updateme').post(authController.protect,authController.updateme)
 
-Router.route('/').get(authController.protect,userController.getAllUser).post(authController.protect,userController.addUser)
-Router.route('/:id').get(authController.protect,userController.getOneUser).patch(authController.protect,userController.updateUser).delete(authController.protect,authController.role(['admin']),userController.deleteUser)
+Router.route('/').get(authController.protect,authController.role(['admin','lead-guide']),userController.getAllUser).post(authController.protect,authController.role(['admin','lead-guide']),userController.addUser)
+Router.route('/:id').get(authController.protect,authController.role(['admin','lead-guide']),userController.getOneUser).patch(authController.protect,authController.role(['admin','lead-guide']),userController.updateUser).delete(authController.protect,authController.role(['admin','lead']),userController.deleteUser)
 
 module.exports=Router

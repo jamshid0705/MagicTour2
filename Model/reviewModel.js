@@ -23,6 +23,11 @@ const reviewSchema=new mongoose.Schema({
   }
 })
 
+reviewSchema.index({user:1,tour:1},{unique:true})
+
+// reviewSchema.pre('save',function(){
+  
+// })
 const Review=mongoose.model('reviews',reviewSchema)
 
 module.exports=Review

@@ -106,6 +106,8 @@ const tourSchema=new mongoose.Schema({
   toObject:{virtuals:true}
 })
 
+tourSchema.index('price',{})
+
 /////// virtual property func /////////////
 tourSchema.virtual('reviews',{
   ref:'reviews',
