@@ -4,14 +4,29 @@ const app=express()
 const userRout=require('./Router/userRout')
 const tourRout=require('./Router/tourRout')
 const reviewRout=require('./Router/reviewRout')
+const viewRout=require('./Router/viewRout')
+const path=require('path')
 
 
 app.use(express.json())
+
+
+
+app.set('view engine','pug')   // pug formatdagi fayllarni 
+app.set('views',path.join(__dirname,'views'))
+
+app.use(express.static(path.join(__dirname,'public')))
+
+app.use('/',viewRout)
+app.use('/home',(req,res,next)=>{
+  res.status(200).render('base')
+})
 
 app.use('/api/v1/tours',tourRout)
 app.use('/api/v1/users',userRout)
 app.use('/api/v1/reviews',reviewRout)
 
+// app.use('/',viewRout)
 //////// err page //////////////
 app.all('*',function(req,res,next){
   next(new appError('Not page !',404))
