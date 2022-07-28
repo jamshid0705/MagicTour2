@@ -12,7 +12,7 @@ const reviewSchema=new mongoose.Schema({
     required:[true,'Siz rating kiriting !']
   },
   tour:{
-    type:String,
+    type:String
   },
   user:{
     type:mongoose.Schema.ObjectId,

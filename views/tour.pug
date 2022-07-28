@@ -68,16 +68,19 @@ block content
             h6.reviews__user=Review.user.name
           p.reviews__text Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque dignissimos sint quo commodi corrupti accusantium veniam saepe numquam.
           .reviews__rating
-            svg.reviews__star.reviews__star--active
-              use(xlink:href='/img/icons.svg#icon-star')
+            -let n=0
+            while n<Review.rating
+              svg.reviews__star.reviews__star--active
+                use(xlink:href='/img/icons.svg#icon-star')
+                -n++  
 
   section.section-cta
     .cta
       .cta__img.cta__img--logo
         img(src='/img/logo-white.png', alt='Natours logo')
-      img.cta__img.cta__img--1(src='/img/tour-5-2.jpg', alt='')
-      img.cta__img.cta__img--2(src='/img/tour-5-1.jpg', alt='')
+      img.cta__img.cta__img--1(src=`/img/tours/${tour.images[0]}`, alt='')
+      img.cta__img.cta__img--2(src=`/img/tours/${tour.images[1]}`, alt='')
       .cta__content
         h2.heading-secondary What are you waiting for?
-        p.cta__text 10 days. 1 adventure. Infinite memories. Make it yours today!
+        p.cta__text= `${tour.duration} days. ${tour.ratingsQuantity} adventure. Infinite memories. Make it yours today!`
         button.btn.btn--green.span-all-rows Book tour now!

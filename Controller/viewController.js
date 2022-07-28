@@ -20,7 +20,7 @@ const getoneTour=catchError2(async(req,res,next)=>{
   const reviews=await Review.find({tour:req.params.id}).populate('user')  
 
   console.log(data)
-  console.log(reviews)
+  // console.log(reviews)
   res.status(200).render('tour',{
     tour:data,
     review:reviews
